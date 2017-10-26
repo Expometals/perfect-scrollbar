@@ -30,11 +30,13 @@ function div(className) {
   return div;
 }
 
-const isServer = type of document === 'undefined'? true : false;
-const elMatches = isServer ? function(){} : 
-  (Element.prototype.matches ||
-  Element.prototype.webkitMatchesSelector ||
-  Element.prototype.msMatchesSelector);
+var proto = typeof Element !== 'undefined' ? Element.prototype : {};
+var elMatches = proto.matches
+|| proto.matchesSelector
+|| proto.webkitMatchesSelector
+|| proto.mozMatchesSelector
+|| proto.msMatchesSelector
+|| proto.oMatchesSelector;
 
 function matches(element, query) {
   if (!elMatches) {
