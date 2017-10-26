@@ -26,10 +26,13 @@ function div(className) {
   return div;
 }
 
-var elMatches =
-  Element.prototype.matches ||
-  Element.prototype.webkitMatchesSelector ||
-  Element.prototype.msMatchesSelector;
+var proto = typeof Element !== 'undefined' ? Element.prototype : null;
+var elMatches = proto.matches
+|| proto.matchesSelector
+|| proto.webkitMatchesSelector
+|| proto.mozMatchesSelector
+|| proto.msMatchesSelector
+|| proto.oMatchesSelector;
 
 function matches(element, query) {
   if (!elMatches) {
