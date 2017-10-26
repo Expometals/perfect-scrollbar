@@ -3,7 +3,7 @@ export function div(className) {
   div.className = className;
   return div;
 }
-var proto = typeof Element !== 'undefined' ? Element.prototype : null;
+var proto = typeof Element !== 'undefined' ? Element.prototype : {};
 var elMatches = proto.matches
 || proto.matchesSelector
 || proto.webkitMatchesSelector
