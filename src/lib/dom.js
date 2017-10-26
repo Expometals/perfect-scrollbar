@@ -3,11 +3,11 @@ export function div(className) {
   div.className = className;
   return div;
 }
-
-const elMatches =
-  Element.prototype.matches ||
+const isServer = type of document === 'undefined'? true : false;
+const elMatches = isServer ? function(){} : 
+  (Element.prototype.matches ||
   Element.prototype.webkitMatchesSelector ||
-  Element.prototype.msMatchesSelector;
+  Element.prototype.msMatchesSelector);
 
 export function matches(element, query) {
   if (!elMatches) {
