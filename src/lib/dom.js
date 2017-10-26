@@ -3,11 +3,13 @@ export function div(className) {
   div.className = className;
   return div;
 }
-const isServer = type of document === 'undefined'? true : false;
-const elMatches = isServer ? function(){} : 
-  (Element.prototype.matches ||
-  Element.prototype.webkitMatchesSelector ||
-  Element.prototype.msMatchesSelector);
+var proto = typeof Element !== 'undefined' ? Element.prototype : null;
+var elMatches = proto.matches
+|| proto.matchesSelector
+|| proto.webkitMatchesSelector
+|| proto.mozMatchesSelector
+|| proto.msMatchesSelector
+|| proto.oMatchesSelector;
 
 export function matches(element, query) {
   if (!elMatches) {
