@@ -3,6 +3,7 @@ export function div(className) {
   div.className = className;
   return div;
 }
+// fix for Server side rendering
 var proto = typeof Element !== 'undefined' ? Element.prototype : {};
 var elMatches = proto.matches
 || proto.matchesSelector
