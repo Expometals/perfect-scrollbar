@@ -24,10 +24,11 @@ function div(className) {
   return div;
 }
 
-var elMatches =
-  Element.prototype.matches ||
+const isServer = type of document === 'undefined'? true : false;
+const elMatches = isServer ? function(){} : 
+  (Element.prototype.matches ||
   Element.prototype.webkitMatchesSelector ||
-  Element.prototype.msMatchesSelector;
+  Element.prototype.msMatchesSelector);
 
 function matches(element, query) {
   if (!elMatches) {
