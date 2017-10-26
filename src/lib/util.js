@@ -25,11 +25,11 @@ export function outerWidth(element) {
   );
 }
 
-var _isWebKit =  typeof document !== 'undefined' ? 'WebkitAppearance' in _document.documentElement.style : false;
-var _supportsTouch = typeof window !== 'undefined' ? ('ontouchstart' in window ||
+const _isWebKit =  typeof document !== 'undefined' ? 'WebkitAppearance' in document.documentElement.style : false;
+const _supportsTouch = typeof window !== 'undefined' ? ('ontouchstart' in window ||
 (window.DocumentTouch && document instanceof window.DocumentTouch)) : false;
 
-var env = {
+export const env = {
   isWebKit: _isWebKit,
   supportsTouch: _supportsTouch,
 };

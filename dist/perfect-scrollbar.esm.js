@@ -23,7 +23,7 @@ function div(className) {
   div.className = className;
   return div;
 }
-
+// fix for Server side rendering
 var proto = typeof Element !== 'undefined' ? Element.prototype : {};
 var elMatches = proto.matches
 || proto.matchesSelector
@@ -193,8 +193,15 @@ function createEvent(name) {
   }
 }
 
-var updateScroll = function(i, axis, value, useScrollingClass) {
+var updateScroll = function(
+  i,
+  axis,
+  value,
+  useScrollingClass,
+  forceFireReachEvent
+) {
   if ( useScrollingClass === void 0 ) useScrollingClass = true;
+  if ( forceFireReachEvent === void 0 ) forceFireReachEvent = false;
 
   var fields;
   if (axis === 'top') {
@@ -217,14 +224,15 @@ var updateScroll = function(i, axis, value, useScrollingClass) {
     throw new Error('A proper axis should be provided');
   }
 
-  updateScroll$1(i, value, fields, useScrollingClass);
+  updateScroll$1(i, value, fields, useScrollingClass, forceFireReachEvent);
 };
 
 function updateScroll$1(
   i,
   value,
   ref,
-  useScrollingClass
+  useScrollingClass,
+  forceFireReachEvent
 ) {
   var contentHeight = ref[0];
   var containerHeight = ref[1];
@@ -232,6 +240,8 @@ function updateScroll$1(
   var y = ref[3];
   var up = ref[4];
   var down = ref[5];
+  if ( useScrollingClass === void 0 ) useScrollingClass = true;
+  if ( forceFireReachEvent === void 0 ) forceFireReachEvent = false;
 
   var element = i.element;
 
@@ -265,7 +275,7 @@ function updateScroll$1(
 
     if (diff > 0) {
       element.dispatchEvent(createEvent(("ps-scroll-" + up)));
-    } else {
+    } else if (diff < 0) {
       element.dispatchEvent(createEvent(("ps-scroll-" + down)));
     }
 
@@ -273,13 +283,13 @@ function updateScroll$1(
       element[scrollTop] = value;
     }
 
-    if (i.reach[y]) {
-      element.dispatchEvent(createEvent(("ps-" + y + "-reach-" + (i.reach[y]))));
-    }
-
     if (useScrollingClass) {
       setScrollingClassInstantly(i, y);
     }
+  }
+
+  if (i.reach[y] && (diff || forceFireReachEvent)) {
+    element.dispatchEvent(createEvent(("ps-" + y + "-reach-" + (i.reach[y]))));
   }
 }
 
@@ -1276,6 +1286,9 @@ PerfectScrollbar.prototype.update = function update () {
   set(this.scrollbarYRail, { display: 'none' });
 
   updateGeometry(this);
+
+  updateScroll(this, 'top', this.element.scrollTop, false, true);
+  updateScroll(this, 'left', this.element.scrollLeft, false, true);
 
   set(this.scrollbarXRail, { display: '' });
   set(this.scrollbarYRail, { display: '' });
