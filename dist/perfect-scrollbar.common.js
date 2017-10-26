@@ -309,7 +309,7 @@ function outerWidth(element) {
   );
 }
 
-var _isWebKit =  typeof document !== 'undefined' ? 'WebkitAppearance' in _document.documentElement.style : false;
+var _isWebKit =  typeof document !== 'undefined' ? 'WebkitAppearance' in document.documentElement.style : false;
 var _supportsTouch = typeof window !== 'undefined' ? ('ontouchstart' in window ||
 (window.DocumentTouch && document instanceof window.DocumentTouch)) : false;
 
