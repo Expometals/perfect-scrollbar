@@ -24,7 +24,7 @@ function div(className) {
   return div;
 }
 
-var proto = typeof Element !== 'undefined' ? Element.prototype : {};
+var proto = typeof Element !== 'undefined' ? Element.prototype : null;
 var elMatches = proto.matches
 || proto.matchesSelector
 || proto.webkitMatchesSelector
